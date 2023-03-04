@@ -32,7 +32,7 @@ public class Guess {
                 } else if (guess == number) {
                     maxAttempts--;
                     System.out.printf("Ты угадал с %d попыток!%n", 10 - maxAttempts);
-                    break;
+                    return;
                 } else if (maxAttempts == 0) {
                     System.out.printf("Ты не угадал. Мое число %d.", number);
                 }
