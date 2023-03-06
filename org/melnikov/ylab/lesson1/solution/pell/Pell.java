@@ -17,12 +17,14 @@ public class Pell {
     public int result(int n) {
         int pell1 = 0;
         int pell2 = 1;
-        if (n < 3) pell2 = n;
-
-        for (int i = 0; i < n - 1; i++) {
-            int pellX = 2 * pell2 + pell1;
-            pell1 = pell2;
-            pell2 = pellX;
+        if (n < 3) {
+            pell2 = n;
+        } else {
+            for (int i = 0; i < n - 1; i++) {
+                int pellX = 2 * pell2 + pell1;
+                pell1 = pell2;
+                pell2 = pellX;
+            }
         }
         return pell2;
     }
