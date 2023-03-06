@@ -18,7 +18,7 @@ public class Stars {
     public void print(int n, int m, String template) {
         for (int i = 0; i < n ; i++) {
             for (int j = 0; j < m ; j++) {
-                System.out.print(template);
+                System.out.print(template + " ");
             }
             System.out.println();
         }

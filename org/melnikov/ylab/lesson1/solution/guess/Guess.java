@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @author Nikolay Melnikov
  */
 public class Guess {
-    private int maxAttempts;
+
 
     public static void main(String[] args) {
         Guess guess = new Guess();
@@ -18,25 +18,29 @@ public class Guess {
 
     public void startGame() {
         int number = new Random().nextInt(99) + 1;
-        maxAttempts = 10;
+        int maxAttempts = 10;
+        int attempts = 0;
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.printf("Я загадал число от 1 до 100. У тебя %d попыток угадать.%n", maxAttempts);
             do {
                 int guess = scanner.nextInt();
+                if (guess == number) {
+                    ++attempts;
+                    System.out.printf("Ты угадал с %d попыток!%n", attempts);
+                    break;
+                }
+                if (guess > number) {
+                    ++attempts;
+                    System.out.printf("Мое число меньше! Осталось %d попыток.%n", maxAttempts - attempts);
+                }
                 if (guess < number) {
-                    maxAttempts--;
-                    System.out.printf("Мое число больше! Осталось %d попыток.%n", maxAttempts);
-                } else if (guess > number) {
-                    maxAttempts--;
-                    System.out.printf("Мое число меньше! Осталось %d попыток.%n", maxAttempts);
-                } else if (guess == number) {
-                    maxAttempts--;
-                    System.out.printf("Ты угадал с %d попыток!%n", 10 - maxAttempts);
-                    return;
-                } else if (maxAttempts == 0) {
+                    ++attempts;
+                    System.out.printf("Мое число больше! Осталось %d попыток.%n", maxAttempts - attempts);
+                }
+                if (attempts == 10) {
                     System.out.printf("Ты не угадал. Мое число %d.", number);
                 }
-            } while (maxAttempts != 0);
+            } while (maxAttempts != attempts);
         }
     }
 }
