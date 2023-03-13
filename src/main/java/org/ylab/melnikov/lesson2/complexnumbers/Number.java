@@ -43,8 +43,6 @@ public class Number extends ComplexNumber {
      * Дополнительный метод для вычисления модуля комплексного числа.
      * Написан для проверки работоспособности основного метода.
      * Согласно javaDoc данный метод работает медленнее основного.
-     *
-     * @return
      */
     public double absWithHypot() {
         return Math.hypot(getReal(), getImaginary());
