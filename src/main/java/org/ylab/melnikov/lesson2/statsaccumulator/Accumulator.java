@@ -9,6 +9,7 @@ public class Accumulator implements StatsAccumulator{
     private int max = Integer.MIN_VALUE;
     private int count;
     private int sum;
+    private double avg;
 
 
 
@@ -21,6 +22,7 @@ public class Accumulator implements StatsAccumulator{
         } else if (value > max) {
             max = value;
         }
+        avg = sum / (count * 1.0);
     }
 
     @Override
@@ -40,6 +42,6 @@ public class Accumulator implements StatsAccumulator{
 
     @Override
     public Double getAvg() {
-        return sum / count * 1.0;
+        return avg;
     }
 }
