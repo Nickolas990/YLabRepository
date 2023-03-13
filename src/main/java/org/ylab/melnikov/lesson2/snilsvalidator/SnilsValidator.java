@@ -1,7 +1,5 @@
 package org.ylab.melnikov.lesson2.snilsvalidator;
 
-import java.util.function.Predicate;
-
 /**
  * @author Nikolay Melnikov
  */
@@ -11,7 +9,7 @@ public class SnilsValidator implements Validator {
         var result = false;
         if (snils.matches("\\d{11}")) {
             var sum = 0;
-            int control = -1;
+            int control;
             for (int i = 0; i < 9; i++) {
                 sum += Character.digit(snils.charAt(i), 10) * (9 - i);
             }
