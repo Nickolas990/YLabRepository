@@ -1,4 +1,4 @@
-package org.melnikov.ylab.lesson1.solution.pell;
+package org.ylab.melnikov.lesson1.pell;
 
 import java.util.Scanner;
 

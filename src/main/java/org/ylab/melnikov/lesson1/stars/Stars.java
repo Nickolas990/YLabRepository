@@ -1,4 +1,4 @@
-package org.melnikov.ylab.lesson1.solution.stars;
+package org.ylab.melnikov.lesson1.stars;
 
 import java.util.Scanner;
 

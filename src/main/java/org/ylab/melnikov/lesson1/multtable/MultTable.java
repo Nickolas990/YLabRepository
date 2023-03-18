@@ -1,4 +1,4 @@
-package org.melnikov.ylab.lesson1.solution.multtable;
+package org.ylab.melnikov.lesson1.multtable;
 
 /**
  * @author Nikolay Melnikov

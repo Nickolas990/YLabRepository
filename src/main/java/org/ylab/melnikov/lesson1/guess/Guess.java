@@ -1,5 +1,4 @@
-package org.melnikov.ylab.lesson1.solution.guess;
-
+package org.ylab.melnikov.lesson1.guess;
 
 import java.util.Random;
 import java.util.Scanner;
