@@ -31,9 +31,9 @@ public class Sorter {
                 fbw.newLine();
                 if (bfb.empty()) {
                     bfb.fbr.close();
-                    bfb.originalfile.delete();// we don't need you anymore
+                    bfb.originalfile.delete();
                 } else {
-                    pq.add(bfb); // add it back
+                    pq.add(bfb);
                 }
             }
         } finally {
