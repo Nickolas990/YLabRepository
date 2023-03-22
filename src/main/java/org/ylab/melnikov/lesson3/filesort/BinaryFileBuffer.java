@@ -56,9 +56,9 @@ public class BinaryFileBuffer {
         return bufferedReader;
     }
 
-    public void setFbr(File f, int buffer) {
+    public void setFbr(File file, int buffer) {
         try {
-            this.bufferedReader = new BufferedReader(new FileReader(f), buffer);
+            this.bufferedReader = new BufferedReader(new FileReader(file), buffer);
         } catch (FileNotFoundException e) {
             System.out.println("Origin file not found");
             throw new IllegalArgumentException(e);

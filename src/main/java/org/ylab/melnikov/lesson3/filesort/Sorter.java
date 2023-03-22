@@ -10,14 +10,13 @@ public class Sorter {
 
     public File sortFile(File dataFile) throws IOException {
         List<File> sortedChunks = sortInChunk(dataFile);
-        Comparator<Long> cmp = Comparator.naturalOrder();
-        return mergeSortedChunks(sortedChunks, cmp);
+        Comparator<Long> comparator = Comparator.naturalOrder();
+        return mergeSortedChunks(sortedChunks, comparator);
     }
 
-    public static File mergeSortedChunks(List<File> files, final Comparator<Long> cmp) throws IOException {
+    public static File mergeSortedChunks(List<File> files, final Comparator<Long> comparator) throws IOException {
         File outputfile = new File("output.txt");
-        PriorityQueue<BinaryFileBuffer> priorityQueue = new PriorityQueue<>(11,
-                (i, j) -> cmp.compare(i.peek(), j.peek())
+        PriorityQueue<BinaryFileBuffer> priorityQueue = new PriorityQueue<>((i, j) -> comparator.compare(i.peek(), j.peek())
         );
         for (File f : files) {
             BinaryFileBuffer bfb = new BinaryFileBuffer(f);
