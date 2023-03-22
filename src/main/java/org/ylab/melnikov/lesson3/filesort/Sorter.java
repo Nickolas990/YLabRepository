@@ -16,18 +16,18 @@ public class Sorter {
 
     public static File mergeSortedChunks(List<File> files, final Comparator<Long> comparator) throws IOException {
         File outputfile = new File("output.txt");
-        PriorityQueue<BinaryFileBuffer> priorityQueue = new PriorityQueue<>((i, j) -> comparator.compare(i.peek(), j.peek())
-        );
-        for (File f : files) {
-            BinaryFileBuffer bfb = new BinaryFileBuffer(f);
-            priorityQueue.add(bfb);
+        PriorityQueue<BinaryFileBuffer> priorityQueue = new PriorityQueue<>((i, j) -> comparator.compare(i.peek(), j.peek()));
+        for (File currentFile : files) {
+            BinaryFileBuffer fileBuffer = new BinaryFileBuffer(currentFile);
+            priorityQueue.add(fileBuffer);
         }
-        try (BufferedWriter fbw = new BufferedWriter(new FileWriter(outputfile))) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(outputfile))) {
             while (!priorityQueue.isEmpty()) {
                 BinaryFileBuffer fileBuffer = priorityQueue.poll();
-                Long r = fileBuffer.pop();
-                fbw.write(r + "");
-                fbw.newLine();
+                Long element = fileBuffer.pop();
+                bufferedWriter.write(element + "");
+                bufferedWriter.newLine();
+
                 if (fileBuffer.empty()) {
                     fileBuffer.closeReader();
                     fileBuffer.deleteOriginalFile();
@@ -72,7 +72,7 @@ public class Sorter {
         Collections.sort(tempData);
         File newTempFile = File.createTempFile("sortInBatch", "flatFile");
         newTempFile.deleteOnExit();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(newTempFile)) ) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(newTempFile))) {
             for (Long element : tempData) {
                 writer.write(element + "");
                 writer.newLine();
@@ -82,17 +82,17 @@ public class Sorter {
     }
 
     public long estimatedSizeOfChunk(File dataFile) {
-            long fileSize = dataFile.length();
-            final int maxTempFiles = 1024;
-            long blockSize = fileSize / maxTempFiles;
-            long freeMemory = Runtime.getRuntime().freeMemory();
+        long fileSize = dataFile.length();
+        final int maxTempFiles = 1024;
+        long blockSize = fileSize / maxTempFiles;
+        long freeMemory = Runtime.getRuntime().freeMemory();
 
-            if (blockSize  < freeMemory / 2) {
-                blockSize = freeMemory / 2;
-            } else if (blockSize >= freeMemory) {
-                System.err.println("ВНИМАНИЕ! Возможно переполнение памяти!");
-            }
-            return blockSize;
+        if (blockSize < freeMemory / 2) {
+            blockSize = freeMemory / 2;
+        } else if (blockSize >= freeMemory) {
+            System.err.println("ВНИМАНИЕ! Возможно переполнение памяти!");
+        }
+        return blockSize;
     }
 
 }
