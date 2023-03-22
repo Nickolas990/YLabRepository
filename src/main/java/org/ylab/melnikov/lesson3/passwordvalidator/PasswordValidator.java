@@ -1,0 +1,35 @@
+package org.ylab.melnikov.lesson3.passwordvalidator;
+
+/**
+ * @author Nikolay Melnikov
+ */
+public class PasswordValidator {
+
+    public static boolean passwordValidate(String login, String password, String confirmPassword) {
+        boolean result = true;
+        try {
+            if (!login.matches("^[A-Za-z0-9]+([A-Za-z0-9]*|[_]?[A-Za-z0-9]+)*$")) {
+                throw new WrongLoginException("Логин содержит недопустимые символы");
+                } else if (login.length() >= 20) {
+                    throw new WrongLoginException("Логин слишком длинный");
+            }
+
+            if (!password.matches("^[A-Za-z0-9]+([A-Za-z0-9]*|[_]?[A-Za-z0-9]+)*$")) {
+                throw new WrongPasswordException("Пароль содержит недопустимые символы");
+                } else if (password.length() >= 20) {
+                    throw new WrongPasswordException("“Пароль слишком длинный");
+                    } else if (!password.equals(confirmPassword)) {
+                        throw new WrongPasswordException("Пароль и подтверждение не совпадают");
+            }
+
+        } catch (WrongLoginException e) {
+            System.out.println(e.getMessage());
+            result = false;
+        } catch (WrongPasswordException e) {
+            System.out.println(e.getMessage());
+            result = false;
+        }
+
+        return result;
+    }
+}
