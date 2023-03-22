@@ -86,7 +86,7 @@ public class Sorter {
             long fileSize = dataFile.length();
             final int maxTempFiles = 1024;
             long blockSize = fileSize / maxTempFiles;
-            long freeMemory = Runtime.getRuntime().freeMemory() / 8;
+            long freeMemory = Runtime.getRuntime().freeMemory();
 
             if (blockSize  < freeMemory / 2) {
                 blockSize = freeMemory / 2;
