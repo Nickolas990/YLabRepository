@@ -1,20 +1,22 @@
 package org.ylab.melnikov.lesson3.filesort;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * @author Nikolay Melnikov
  */
 public class BinaryFileBuffer {
-    public static int BUFFERSIZE = 2048;
-    public BufferedReader fbr;
-    public File originalfile;
+    public static final int BUFFERSIZE = 2048;
+    private BufferedReader fbr;
+    private File originalfile;
     private String cache;
     private boolean empty;
 
-    public BinaryFileBuffer(File f) throws IOException {
-        originalfile = f;
-        fbr = new BufferedReader(new FileReader(f), BUFFERSIZE);
+    public BinaryFileBuffer(File file) {
+        setOriginalfile(file);
+        setFbr(file, BUFFERSIZE);
         reload();
     }
 
@@ -22,17 +24,15 @@ public class BinaryFileBuffer {
         return empty;
     }
 
-    private void reload() throws IOException {
+    private void reload() {
         try {
-            if ((this.cache = fbr.readLine()) == null) {
-                empty = true;
-                cache = null;
-            } else {
-                empty = false;
-            }
+            empty = (this.cache = fbr.readLine()) == null;
         } catch (EOFException oef) {
             empty = true;
             cache = null;
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new IllegalStateException(e);
         }
     }
 
@@ -46,9 +46,42 @@ public class BinaryFileBuffer {
         return Long.parseLong(cache);
     }
 
-    public Long pop() throws IOException {
+    public Long pop(){
         Long answer = peek();
         reload();
         return answer;
+    }
+
+    public BufferedReader getFbr() {
+        return fbr;
+    }
+
+    public void setFbr(File f, int buffer) {
+        try {
+            this.fbr = new BufferedReader(new FileReader(f), buffer);
+        } catch (FileNotFoundException e) {
+            System.out.println("Origin file not found");
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public File getOriginalfile() {
+        return originalfile;
+    }
+
+    public void setOriginalfile(File originalfile) {
+        this.originalfile = originalfile;
+    }
+
+    public boolean isEmpty() {
+        return empty;
+    }
+
+    public void deleteOriginalFile() throws IOException {
+        Files.delete(Path.of(originalfile.toURI()));
+    }
+
+    public void closeReader() throws IOException {
+        fbr.close();
     }
 }

@@ -16,28 +16,28 @@ public class Sorter {
 
     public static File mergeSortedChunks(List<File> files, final Comparator<Long> cmp) throws IOException {
         File outputfile = new File("output.txt");
-        PriorityQueue<BinaryFileBuffer> pq = new PriorityQueue<>(11,
+        PriorityQueue<BinaryFileBuffer> priorityQueue = new PriorityQueue<>(11,
                 (i, j) -> cmp.compare(i.peek(), j.peek())
         );
         for (File f : files) {
             BinaryFileBuffer bfb = new BinaryFileBuffer(f);
-            pq.add(bfb);
+            priorityQueue.add(bfb);
         }
         try (BufferedWriter fbw = new BufferedWriter(new FileWriter(outputfile))) {
-            while (!pq.isEmpty()) {
-                BinaryFileBuffer bfb = pq.poll();
-                Long r = bfb.pop();
+            while (!priorityQueue.isEmpty()) {
+                BinaryFileBuffer fileBuffer = priorityQueue.poll();
+                Long r = fileBuffer.pop();
                 fbw.write(r + "");
                 fbw.newLine();
-                if (bfb.empty()) {
-                    bfb.fbr.close();
-                    bfb.originalfile.delete();
+                if (fileBuffer.empty()) {
+                    fileBuffer.closeReader();
+                    fileBuffer.deleteOriginalFile();
                 } else {
-                    pq.add(bfb);
+                    priorityQueue.add(fileBuffer);
                 }
             }
         } finally {
-            for (BinaryFileBuffer bfb : pq) bfb.close();
+            for (BinaryFileBuffer fileBuffer : priorityQueue) fileBuffer.close();
         }
         return outputfile;
     }
@@ -75,7 +75,7 @@ public class Sorter {
         newTempFile.deleteOnExit();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(newTempFile)) ) {
             for (Long element : tempData) {
-                writer.write(element +"");
+                writer.write(element + "");
                 writer.newLine();
             }
         }
