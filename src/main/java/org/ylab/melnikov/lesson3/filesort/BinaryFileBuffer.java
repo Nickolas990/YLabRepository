@@ -9,13 +9,13 @@ import java.nio.file.Path;
  */
 public class BinaryFileBuffer {
     public static final int BUFFERSIZE = 2048;
-    private BufferedReader fbr;
+    private BufferedReader bufferedReader;
     private File originalfile;
     private String cache;
     private boolean empty;
 
     public BinaryFileBuffer(File file) {
-        setOriginalfile(file);
+        setOriginalFile(file);
         setFbr(file, BUFFERSIZE);
         reload();
     }
@@ -26,7 +26,7 @@ public class BinaryFileBuffer {
 
     private void reload() {
         try {
-            empty = (this.cache = fbr.readLine()) == null;
+            empty = (this.cache = bufferedReader.readLine()) == null;
         } catch (EOFException oef) {
             empty = true;
             cache = null;
@@ -37,7 +37,7 @@ public class BinaryFileBuffer {
     }
 
     public void close() throws IOException {
-        fbr.close();
+        bufferedReader.close();
     }
 
 
@@ -52,13 +52,13 @@ public class BinaryFileBuffer {
         return answer;
     }
 
-    public BufferedReader getFbr() {
-        return fbr;
+    public BufferedReader getBufferedReader() {
+        return bufferedReader;
     }
 
     public void setFbr(File f, int buffer) {
         try {
-            this.fbr = new BufferedReader(new FileReader(f), buffer);
+            this.bufferedReader = new BufferedReader(new FileReader(f), buffer);
         } catch (FileNotFoundException e) {
             System.out.println("Origin file not found");
             throw new IllegalArgumentException(e);
@@ -69,7 +69,7 @@ public class BinaryFileBuffer {
         return originalfile;
     }
 
-    public void setOriginalfile(File originalfile) {
+    public void setOriginalFile(File originalfile) {
         this.originalfile = originalfile;
     }
 
@@ -82,6 +82,6 @@ public class BinaryFileBuffer {
     }
 
     public void closeReader() throws IOException {
-        fbr.close();
+        bufferedReader.close();
     }
 }
