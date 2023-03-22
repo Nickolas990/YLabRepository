@@ -17,24 +17,19 @@ public class Sorter {
     public static File mergeSortedChunks(List<File> files, final Comparator<Long> cmp) throws IOException {
         File outputfile = new File("output.txt");
         PriorityQueue<BinaryFileBuffer> pq = new PriorityQueue<>(11,
-                new Comparator<BinaryFileBuffer>() {
-                    public int compare(BinaryFileBuffer i, BinaryFileBuffer j) {
-                        return cmp.compare(i.peek(), j.peek());
-                    }
-                }
+                (i, j) -> cmp.compare(i.peek(), j.peek())
         );
         for (File f : files) {
             BinaryFileBuffer bfb = new BinaryFileBuffer(f);
             pq.add(bfb);
         }
-        BufferedWriter fbw = new BufferedWriter(new FileWriter(outputfile));
-        try {
-            while(pq.size()>0) {
+        try (BufferedWriter fbw = new BufferedWriter(new FileWriter(outputfile))) {
+            while (!pq.isEmpty()) {
                 BinaryFileBuffer bfb = pq.poll();
                 Long r = bfb.pop();
-                fbw.write(r+"");
+                fbw.write(r + "");
                 fbw.newLine();
-                if(bfb.empty()) {
+                if (bfb.empty()) {
                     bfb.fbr.close();
                     bfb.originalfile.delete();// we don't need you anymore
                 } else {
@@ -42,8 +37,7 @@ public class Sorter {
                 }
             }
         } finally {
-            fbw.close();
-            for(BinaryFileBuffer bfb : pq ) bfb.close();
+            for (BinaryFileBuffer bfb : pq) bfb.close();
         }
         return outputfile;
     }
