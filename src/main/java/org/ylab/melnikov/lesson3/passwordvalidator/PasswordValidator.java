@@ -8,18 +8,18 @@ public class PasswordValidator {
     public static boolean passwordValidate(String login, String password, String confirmPassword) {
         boolean result = true;
         try {
-            if (!login.matches("^[A-Za-z0-9]+([A-Za-z0-9]*|[_]?[A-Za-z0-9]+)*$")) {
+            if (!login.matches("\\w+")) {
                 throw new WrongLoginException("Логин содержит недопустимые символы");
-                } else if (login.length() >= 20) {
-                    throw new WrongLoginException("Логин слишком длинный");
+            } else if (login.length() >= 20) {
+                throw new WrongLoginException("Логин слишком длинный");
             }
 
-            if (!password.matches("^[A-Za-z0-9]+([A-Za-z0-9]*|[_]?[A-Za-z0-9]+)*$")) {
+            if (!password.matches("\\w+")) {
                 throw new WrongPasswordException("Пароль содержит недопустимые символы");
-                } else if (password.length() >= 20) {
-                    throw new WrongPasswordException("“Пароль слишком длинный");
-                    } else if (!password.equals(confirmPassword)) {
-                        throw new WrongPasswordException("Пароль и подтверждение не совпадают");
+            } else if (password.length() >= 20) {
+                throw new WrongPasswordException("“Пароль слишком длинный");
+            } else if (!password.equals(confirmPassword)) {
+                throw new WrongPasswordException("Пароль и подтверждение не совпадают");
             }
 
         } catch (WrongLoginException e) {
