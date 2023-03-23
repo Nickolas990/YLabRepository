@@ -22,10 +22,7 @@ public class PasswordValidator {
                 throw new WrongPasswordException("Пароль и подтверждение не совпадают");
             }
 
-        } catch (WrongLoginException e) {
-            System.out.println(e.getMessage());
-            result = false;
-        } catch (WrongPasswordException e) {
+        } catch (WrongLoginException | WrongPasswordException e) {
             System.out.println(e.getMessage());
             result = false;
         }
