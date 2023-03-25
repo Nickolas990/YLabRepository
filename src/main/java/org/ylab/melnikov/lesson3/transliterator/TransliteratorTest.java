@@ -11,11 +11,11 @@ public class TransliteratorTest {
         Transliterator transliterator = string -> {
             StringBuilder sb = new StringBuilder();
             Map<String, String> rules = TransliterationRules.initializeSimpleTransliterationRules();
-            for (int i = 1; i <= string.length(); i++) {
+            for (int i = 0; i <= string.length(); i++) {
                 if (rules.containsKey(string.substring(i-1,i))) {
                     sb.append(rules.get(string.substring(i-1,i)));
                 } else {
-                    sb.append(string.substring(i-1, i));
+                    sb.append(string.charAt(i-1));
                 }
             }
             return sb.toString();
