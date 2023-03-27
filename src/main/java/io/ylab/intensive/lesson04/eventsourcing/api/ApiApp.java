@@ -20,6 +20,7 @@ public class ApiApp {
     // Тут пишем создание PersonApi, запуск и демонстрацию работы
 
     PersonApi personApi = new PersonApiImpl(connectionFactory, DbUtil.buildDataSource());
+
     personApi.savePerson(3L, "John", "Dou", "Joe");
     personApi.savePerson(4L, "Jane", "Dou", "Jane");
     personApi.savePerson(5L, "Test", "Test", "Test");
