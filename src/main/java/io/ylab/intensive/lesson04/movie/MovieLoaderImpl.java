@@ -137,11 +137,10 @@ public class MovieLoaderImpl implements MovieLoader {
       } else {
         statement.setNull(8, Types.INTEGER);
       }
-
-      if(movie.getAwards()) {
+      if(!Objects.isNull(movie.getAwards())) {
         statement.setBoolean(9, movie.getAwards());
       } else {
-        statement.setBoolean(9, movie.getAwards());
+        statement.setNull(9, Types.BOOLEAN);
       }
 
       statement.executeUpdate();
