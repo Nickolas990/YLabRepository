@@ -10,8 +10,8 @@ import java.util.Set;
  */
 public class DatedHashMap implements DatedMap<String, String> {
 
-    private Map<String, String> map = new HashMap<>();
-    private Map<String, Date> dateMap = new HashMap<>();
+    private final Map<String, String> map = new HashMap<>();
+    private final Map<String, Date> dateMap = new HashMap<>();
     @Override
     public void put(String key, String value) {
         map.put(key, value);
