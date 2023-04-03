@@ -44,7 +44,7 @@ public class MessageFilter implements Filter {
     @Override
     public void checkAndChange(String message) {
         String result = message;
-        StringTokenizer tokenizer = new StringTokenizer(message, " \t\r\n,.");
+        StringTokenizer tokenizer = new StringTokenizer(message, " \t\r\n,.!?;");
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
             if (checkWord(token)) {
@@ -90,7 +90,7 @@ public class MessageFilter implements Filter {
     }
 
     private void createTable(String tableName) {
-        String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (\n" +
+        String sql = "CREATE TABLE " + tableName + " (\n" +
                 "word varchar(255) NOT NULL\n" +
                 ")";
         try (Connection connection = dataSource.getConnection();

@@ -3,6 +3,7 @@ package io.ylab.intensive.lesson05.eventsourcing.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.ylab.intensive.lesson05.eventsourcing.Person;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ public class PersonApiImpl implements PersonApi {
     private final DataSource dataSource;
     private final Dialog dialog;
 
+    @Autowired
     public PersonApiImpl(DataSource dataSource, @Qualifier("dialog") Dialog dialog) {
         this.dataSource = dataSource;
         this.dialog = dialog;
