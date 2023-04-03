@@ -10,6 +10,7 @@ public class MessageFilterApp {
     applicationContext.start();
 
     Receiver receiver = applicationContext.getBean(Receiver.class);
+    receiver.receive();
 
   }
 }

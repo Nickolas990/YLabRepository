@@ -15,7 +15,7 @@ import java.util.concurrent.TimeoutException;
 @Component
 public class MessageReceiver implements Receiver {
 
-    @Value("${filter.queue.name}")
+    @Value("${receiver.queue.name}")
     private String QUEUE_NAME;
     private final ConnectionFactory connectionFactory;
     private final Filter filter;

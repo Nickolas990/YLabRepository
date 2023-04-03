@@ -1,6 +1,7 @@
 package io.ylab.intensive.lesson05.messagefilter.impl;
 
 import io.ylab.intensive.lesson05.messagefilter.interfaces.Filter;
+import io.ylab.intensive.lesson05.messagefilter.interfaces.Sender;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import java.util.StringTokenizer;
 public class MessageFilter implements Filter {
 
     private final DataSource dataSource;
+    private final Sender sender;
 
     @Value("classpath:censored.txt")
     private Resource resource;
@@ -24,8 +26,9 @@ public class MessageFilter implements Filter {
     @Value("${table.name}")
     private String tableName;
 
-    public MessageFilter(DataSource dataSource) {
+    public MessageFilter(DataSource dataSource, Sender sender) {
         this.dataSource = dataSource;
+        this.sender = sender;
     }
 
     @PostConstruct
@@ -39,7 +42,7 @@ public class MessageFilter implements Filter {
     }
 
     @Override
-    public String checkAndChange(String message) {
+    public void checkAndChange(String message) {
         String result = message;
         StringTokenizer tokenizer = new StringTokenizer(message, " \t\r\n,.");
         while (tokenizer.hasMoreTokens()) {
@@ -49,16 +52,28 @@ public class MessageFilter implements Filter {
                 result = result.replace(token, censoredToken);
             }
         }
-        return result;
+        sender.sendMessage(result);
     }
 
     private boolean checkWord(String token) {
-        return false;
+        boolean result = false;
+        String sql = "SELECT word FROM " + tableName + " WHERE LOWER(word) = LOWER(?) ";
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, token);
+            ResultSet rs = preparedStatement.executeQuery();
+            result = rs.next();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return result;
     }
 
     private String censoring(String token) {
         StringBuilder sb = new StringBuilder(token);
-        sb.replace(1, token.length() - 1, "*");
+        for (int i = 1; i < token.length() - 1 ; i++) {
+            sb.replace(i, i+1, "*");
+        }
         return sb.toString();
     }
 
