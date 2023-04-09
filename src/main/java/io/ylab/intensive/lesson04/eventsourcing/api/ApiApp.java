@@ -1,14 +1,11 @@
 package io.ylab.intensive.lesson04.eventsourcing.api;
 
-import com.rabbitmq.client.BuiltinExchangeType;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
+
 import com.rabbitmq.client.ConnectionFactory;
 import io.ylab.intensive.lesson04.DbUtil;
 import io.ylab.intensive.lesson04.RabbitMQUtil;
 import io.ylab.intensive.lesson04.eventsourcing.Person;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class ApiApp {
